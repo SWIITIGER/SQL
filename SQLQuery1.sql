@@ -1,9 +1,9 @@
 -- komm
 -- teeb andmebaasi ehk db
-create database TARpe22
+create database TARpe22_3
 
 -- kustutamine db
-drop database TARpe22
+drop database TARpe22_3
 
 -- tabeli loomine
 create table Gender
@@ -26,11 +26,11 @@ select * from Gender
 --- teeme uue tabeli
 create table Person
 (
-    Id int not null primary key,
-    name nvarchar(30),
-    Email nvarchar(30),
-    GenderId int
-    )
+Id int not null primary key,
+name nvarchar(30),
+Email nvarchar(30),
+GenderId int
+)
 
 ---vaatame Person tabeli sisu
 select * from person
@@ -169,51 +169,238 @@ alter column Name nvarchar(25)
 alter table Person
 alter column Age int
 
-
---kuvab esimeses reas välja toodud järjestused ja muudab Age-i TotalAge-ks
---teeb järjestuse vaatesse: City, GenderId ja järjestab omakorda City veeru
 select City, GenderId, SUM(Age) as TotalAge from Person
-group by City, GenderId order by City
+groub by City, GenderId order by City
 
---näitab, et mitu rida on selles tabelis
+---näitab, et mitu rida on selles tabelis
 select COUNT(*) from Person
+select * from Person
 
-
----veergude lugemine
-SELECT count(*)
+--- veergude lugemine
+select COUNT(*)
 FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME = 'Person'
+WHERE TABLE_NAME ='Person'
 
----näitab tulemust, et miu inimest on genderId 
----väärtusega 2 konkreetses linnas
----arvutab kokku vanuse
+---
 select GenderId, City, SUM(Age) as TotalAge, COUNT(Id) as [Total Person(s)]
-from Person
 where GenderId = '2'
 group by GenderId, City
 
----näitab, et mitu inimest on vanemad, kui 41 ja kui palju igas linnas
+--- n'itab, et mitu inimest on vanemad, kui 41 ja kui palju igas linnas
 select GenderId, City, SUM(Age) as TotalAge, COUNT(Id) as [Total Person(s)]
 from Person
 group by GenderId, City having SUM(Age) > 41
 
---loome uue tabeli
+--loome uue tabelid
 create table Department
 (
-Id int primary key, key
+Id int primary key,
 DepartmentName nvarchar(50),
-[Location] nvarchar(50),
+[location] nvarchar(50)
 DepartmentHead nvarchar(50)
 )
 
 create table Employees
 (
 Id int primary key,
-Name nvarchar(50),
+Name nvarchar(50)
 Gender nvarchar(50),
 Salary nvarchar(50),
 DepartmentId int
 )
 
-insert into Employs (id, Name, Gender, Salary, DepartmentId)
-values (1, 'Tom', 'Male', '4000', 'IT')
+
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(1,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(2,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(3,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(4,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(5,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(6,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(7,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(8,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(9,'TOM','MALE',4000,1)
+insert into Employees(Id, Name Gender, Salary, DepartmentId)
+values(10,'TOM','MALE',4000,1)
+
+
+insert into Department)Id, DepartmentName, Location, DepartmentHead)
+values
+(1, 'IT'. 'London', 'Rick')
+(2, 'Payroll', 'Delhi', 'Ron')
+(3, 'Hr', 'New York', 'Cristie')
+(4, 'Other Department', 'Sydney', 'Cinderella')
+
+
+select Name, Gender, Salary, DepartmentName
+from Employees
+left join Department
+on Employees.DepartmentId = Department.Id
+
+---arvutame [he kuu palgafondi
+select SUM(CAST(Salary as int)) from Employees
+--- min palga saaja ja kui tahame max palga saajat,
+--- siis min asemel max
+select MIN(CAST(Salary as int)) from Employees
+-- ühe kuu palgafond linnade l]ikes
+
+---lisame veeru niimega City
+alter table Employees
+add City nvarchar(30)
+
+select * from Employees
+
+select City, SUM(CAST(Salary as int)) as TotalSalary
+from Employess
+group by City
+
+--linnad tähestikues järjestuses
+select City, SUM(CAST(Salary as int)) as TotalSalary
+from Employess
+group by City, Gender
+order by City
+
+--- loeb ära mitu inimest on nimekirjas
+select COUNT(*) from Employees
+
+--- vaatame mitu töötajat on soo ja linna kaupa
+select Gender, City, SUM(CAST)Salary as int)) as TotalSalary,
+COUNT (Id) as [Total Employees(s)]
+from Employees
+group by Gender, City
+
+--näidata kõiki mehi linnade kaupa
+select Gender, City, SUM(CAST(Salary as int)) as TotalSalary,
+COUNT (Id) as [Total Employees(s)]
+from Employees
+where Gender = 'Male'
+group by Gender, City
+
+--- näitab ainult kõik naised linade kaupa
+select Gender, City, SUM(CAST(Salary as int)) as TotalSalary,
+COUNT (Id) as [Total Employees(s)]
+from Employees
+group by Gender, City
+having Gender = 'Female'
+
+---vigane päring
+select * from Employees where SUM(CAST(Salary as int)) > 4000
+
+-- töötav varjant
+select Gender, City, SUM(CAST(Salary as int)) as [Total Salary],
+COUNT (Id) as [Total Employees(s)]
+from Employees group by Gender, City
+having SUM(CAST(Salary as int)) > 4000
+
+--- loome tabeli, milles tahetakse auomaaltselt nummerdama Id-d
+create table Test1
+(
+Id int identity(1,1),
+Value nvarchar(20)
+)
+
+insert into Test1 values ('X')
+
+select * from Test1
+
+--- inner join
+-- kuvab neid, kellel on DepartmentNmae all olemas väärtus
+select Name, Gender, Salary, DepartmentName
+from Employees
+inner join Department
+on Employees.DepartmentId = Department.Id
+
+--- left join
+--- kuidas saada kõik andmed Employeest kätte
+select Name, Gender, Salary, DepartmentName
+from Employees
+left join Department -- võib kasutada ka left outer join-i
+on Employees.DepartmentId = Department.Id
+
+---näitab kõik töötajad Employee ja department tabelist
+--- osakonna kuhu ei ole kedagi mahutatud
+select Name, Gender, Salary, DepartmentName
+from Employees
+right join Department -- võib kasutada ka Right outer join-i
+on Employees.DepartmentId = Department.Id
+
+--- kuidas saada kõikide tabelite väärtused ühte päringusse
+select Name, Gender, Salary, DepartmentName
+from Employees
+full outer join Department
+on Employees.DepartmentId = Department.Id
+
+---võtab kaks allpool olevat tabelit kokku ja
+--- korrutab need omavahel läbi
+select Name, Gender, Salary, DepartmentName
+from Employees
+cross join Department
+
+--- kuidas kuvada ainult isikud, kellel on Department NULL
+select Name, Gender, Salary, DepartmentName
+from Employees
+left join Department
+on Employees.DepartmentId = Department.Id
+where Employees.DepartmentId is null
+
+--- teine varjant
+select Name, Gender, Salary, DepartmentName
+from Employees
+left join Department
+on Employees.DepartmentId = Department.Id
+where Department.Id is null
+
+-- kuidas saame department tabelise oleva rea kus on NULL
+select Name, Gender, Salary, DepartmentName
+from Employees
+left join Department
+on Employees.DepartmentId = Department.Id
+where Employees.DepartmentId is null
+
+--full join
+-- mõlema tabeli mitte kattuvate väärtustega read kuvab välja
+select Name, Gender, Salary, DepartmentName
+from Employees
+full join Department
+on Employees.DepartmentId = Department.Id
+where Employees.DepartmentId is null
+or Department.Id is null
+
+select * from dbo.DimEmployee
+---tahan teada saada mis tähendab SalesTerritoryKey DimEmployee Tabelis
+--- inner join-i kasutada
+SELECT FirstName, LastName, SalesTerritoryCountry, SalesTerritoryGroup, SalesTerritoryRegion
+from dbo.DimEmployee
+inner join DimSalesTerritory 
+ON dbo.DimEmployee.SalesTerritoryKey = dbo.DimEmployee. SalesTerritoryKey
+
+SELECT FirstName, LastName, SalesTerritoryCountry, SalesTerritoryGroup, SalesTerritoryRegion
+from dbo.DimEmployee
+left join DimSalesTerritory 
+ON dbo.DimEmployee.SalesTerritoryKey = dbo.DimEmployee.SalesTerritoryKey
+
+select DealerPrice, EnglishProductName, Spanish
+from dbo.DimProduct
+left join dbo.DimProductSubcategory
+on DimProduct.ProductSubcategoryKey = DimProductSubcategory.ProductSubcategoryKey
+
+
+
+
+
+
+
+
+
+SELECT FirstName, LastName, SalesTerritoryCountry, SalesTerritoryGroup, SalesTerritoryRegion
+from dbo.DimEmployee
+full join DimSalesTerritory 
+ON dbo.DimEmployee.SalesTerritoryKey = dbo.DimEmployee. SalesTerritoryKey
